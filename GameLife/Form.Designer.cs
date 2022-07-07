@@ -32,6 +32,8 @@
             this.btnStep = new System.Windows.Forms.Button();
             this.btnClean = new System.Windows.Forms.Button();
             this.btnRandom = new System.Windows.Forms.Button();
+            this.sizeBox = new System.Windows.Forms.ComboBox();
+            this.groupCell = new System.Windows.Forms.GroupBox();
             this.SuspendLayout();
             // 
             // btnRun
@@ -86,13 +88,44 @@
             this.btnRandom.UseVisualStyleBackColor = true;
             this.btnRandom.Click += new System.EventHandler(this.btnRandom_Click);
             // 
+            // sizeBox
+            // 
+            this.sizeBox.BackColor = System.Drawing.Color.Snow;
+            this.sizeBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.sizeBox.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.sizeBox.FormattingEnabled = true;
+            this.sizeBox.Items.AddRange(new object[] {
+            "10",
+            "30",
+            "60"});
+            this.sizeBox.Location = new System.Drawing.Point(319, 0);
+            this.sizeBox.Margin = new System.Windows.Forms.Padding(0);
+            this.sizeBox.MinimumSize = new System.Drawing.Size(60, 0);
+            this.sizeBox.Name = "sizeBox";
+            this.sizeBox.Size = new System.Drawing.Size(66, 27);
+            this.sizeBox.TabIndex = 4;
+            this.sizeBox.SelectedIndexChanged += new System.EventHandler(this.sizeBox_SelectedIndexChanged);
+            // 
+            // groupCell
+            // 
+            this.groupCell.BackColor = System.Drawing.Color.LemonChiffon;
+            this.groupCell.Location = new System.Drawing.Point(0, 30);
+            this.groupCell.Margin = new System.Windows.Forms.Padding(0);
+            this.groupCell.Name = "groupCell";
+            this.groupCell.Padding = new System.Windows.Forms.Padding(0);
+            this.groupCell.Size = new System.Drawing.Size(900, 900);
+            this.groupCell.TabIndex = 5;
+            this.groupCell.TabStop = false;
+            // 
             // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(617, 631);
+            this.BackColor = System.Drawing.Color.MistyRose;
+            this.ClientSize = new System.Drawing.Size(900, 931);
+            this.Controls.Add(this.groupCell);
+            this.Controls.Add(this.sizeBox);
             this.Controls.Add(this.btnRandom);
             this.Controls.Add(this.btnClean);
             this.Controls.Add(this.btnStep);
@@ -100,6 +133,7 @@
             this.Name = "Form";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Игра Жизнь";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form_FormClosed);
             this.Load += new System.EventHandler(this.Form_Load);
             this.ResumeLayout(false);
 
@@ -111,6 +145,8 @@
         private System.Windows.Forms.Button btnStep;
         private System.Windows.Forms.Button btnClean;
         private System.Windows.Forms.Button btnRandom;
+        private System.Windows.Forms.ComboBox sizeBox;
+        private System.Windows.Forms.GroupBox groupCell;
     }
 }
 

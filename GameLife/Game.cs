@@ -5,6 +5,7 @@ namespace GameLife
 {
     internal class Game
     {
+        int SLEEP = 100;
         public static ManualResetEvent mre = new ManualResetEvent(false);
         Field field;
         int rows, cols;
@@ -19,26 +20,18 @@ namespace GameLife
 
         public void Enter()
         {
-            field = new Field((0, 30), rows, cols);
-            Random r = new Random();
-            for (int i = 0; i < rows; ++i)
-                for (int j = 0; j < cols; ++j)
-                {
-                    field.Cells[i, j] = new Cell();
-                }
+            field = new Field(rows, cols);
+            
             field.Draw();
         }
 
         public void Step()
         {
-            int rows = field.Cells.GetLength(0);
-            int cols = field.Cells.GetLength(1);
-
-            CellChanger(rows, cols);
-            Thread.Sleep(100);
+            CellChanger();
+            Thread.Sleep(SLEEP);
         }
 
-        private void CellChanger(int rows, int cols)
+        private void CellChanger()
         {
             for (int i = 0; i < rows; ++i)
                 for (int j = 0; j < cols; ++j)
@@ -49,7 +42,6 @@ namespace GameLife
                     bool inner = !roof && !wall;
 
                     Cell cell = field.Cells[i, j];
-                    cell.Neighbor = 0;
                     if (inner)
                         InnerState(i, j, cell);
                     else if (!corner)
@@ -63,24 +55,26 @@ namespace GameLife
 
         private void CornerState(int i, int j, Cell cell)
         {
-            int[] ki = { i, Math.Abs(i - 1) % 29, Math.Abs(i - 1) % 29 };
-            int[] lj = { Math.Abs(j - 1) % 29, Math.Abs(j - 1) % 29, j };
+            int last = field.Size.Item1 - 1;
+            int[] ki = { i, Math.Abs(i - 1) % last, Math.Abs(i - 1) % last };
+            int[] lj = { Math.Abs(j - 1) % last, Math.Abs(j - 1) % last, j };
 
             CornerWall(ki, lj, cell);
         }
 
         private void WallState(int i, int j, Cell cell)
         {
-            if (i % 29 == 0)
+            int last = field.Size.Item1 - 1;
+            if (i % last == 0)
             {
-                int k = Math.Abs(i - 1) % 29;
+                int k = Math.Abs(i - 1) % last;
                 int[] ki = { i, k, k, k, i };
                 int[] lj = { j - 1, j - 1, j, j + 1, j + 1 };
                 CornerWall(ki, lj, cell);
             }
             else
             {
-                int l = Math.Abs(j - 1) % 29;
+                int l = Math.Abs(j - 1) % last;
                 int[] lj = { j, l, l, l, j };
                 int[] ki = { i - 1, i - 1, i, i + 1, i + 1 };
                 CornerWall(ki, lj, cell);
@@ -133,6 +127,7 @@ namespace GameLife
         {
             this.rows = rows;
             this.cols = cols;
+            Enter();
         }
 
         public Cell[,] Cells { get => field.Cells; }

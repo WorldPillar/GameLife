@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using System.Drawing;
 
 namespace GameLife
@@ -13,31 +14,43 @@ namespace GameLife
             this.life = life;
         }
 
-        public bool Selection()
+        public void Selection()
         {
             if (life)
             {
-                if (neighbors == 2 || neighbors == 3)
-                    return false;
-                else
+                if (!(neighbors == 2 || neighbors == 3))
                     ChangeState();
             }
             else if (neighbors == 3)
             {
                 ChangeState();
             }
-            else
-                return false;
-            return true;
+            neighbors = 0;
         }
 
-        public void ChangeState()
+        public void ChangeState(object sender = null, EventArgs e = null)
         {
             life = !life;
             if (life)
                 BackColor = Color.Red;
             else
                 BackColor = Color.White;
+        }
+
+        public void Draw(int i, int j, int size)
+        {
+            if (life)
+                BackColor = Color.Red;
+            else
+                BackColor = Color.White;
+            FlatAppearance.BorderSize = 1;
+            FlatStyle = FlatStyle.Flat;
+            Location = new Point(j * size, i * size);
+            Margin = new Padding(0);
+            Size = new Size(size, size);
+            TabIndex = 1;
+            UseVisualStyleBackColor = true;
+            Click += new EventHandler(ChangeState);
         }
 
         public bool Life { get => life; set => life = value; }

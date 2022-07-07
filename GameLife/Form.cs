@@ -6,26 +6,21 @@ namespace GameLife
     public partial class Form : System.Windows.Forms.Form
     {
         Thread gamethread;
-        Thread stepthread;
         Game game;
-        double randval;
 
         public Form()
         {
             InitializeComponent();
-            game = new Game(30,30);
+            game = new Game(10,10);
             gamethread = new Thread(new ThreadStart(GameStart));
-            stepthread = new Thread(new ThreadStart(StepStart));
-            randval = 0.1;
         }
 
         private void Form_Load(object sender, EventArgs e)
         {
             game.Enter();
             foreach (Cell cell in game.Cells)
-                this.Controls.Add(cell);
+                groupCell.Controls.Add(cell);
             gamethread.Start();
-            stepthread.Start();
         }
 
         private void GameStart()
@@ -37,15 +32,10 @@ namespace GameLife
             }
         }
 
-        private void StepStart()
-        {
-            Game.mre.WaitOne();
-            game.Step();
-        }
-
         private void btnRun_Click(object sender, EventArgs e)
         {
-            if (game.State)
+            game.Stop_Proceed();
+            if (!game.State)
             {
                 Game.mre.Reset();
                 btnRun.Text = "Run";
@@ -55,7 +45,6 @@ namespace GameLife
                 Game.mre.Set();
                 btnRun.Text = "Stop";
             }
-            game.Stop_Proceed();
         }
 
         private void btnStep_Click(object sender, EventArgs e)
@@ -73,7 +62,7 @@ namespace GameLife
         private void btnRandom_Click(object sender, EventArgs e)
         {
             Interrupt();
-            game.Random(0.1);
+            game.Random(0.2);
         }
 
         private void Interrupt()
@@ -84,6 +73,24 @@ namespace GameLife
                 btnRun.Text = "Run";
                 game.Stop_Proceed();
             }
+        }
+
+        private void sizeBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Interrupt();
+            groupCell.Controls.Clear();
+
+            int size = int.Parse(sizeBox.SelectedItem.ToString());
+            game.ReSize(size, size);
+
+            foreach (Cell cell in game.Cells)
+                groupCell.Controls.Add(cell);
+        }
+
+        private void Form_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+        {
+            gamethread.Abort();
+            Environment.Exit(-1);
         }
     }
 }
