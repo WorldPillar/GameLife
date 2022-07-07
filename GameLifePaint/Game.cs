@@ -1,28 +1,30 @@
 ﻿using System;
+using System.Drawing;
 using System.Threading;
 
-namespace GameLife
+namespace GameLifePaint
 {
     internal class Game
     {
-        int SLEEP = 100;
+        int SLEEP = 150;
         public static ManualResetEvent mre = new ManualResetEvent(false);
         Field field;
-        int rows, cols;
+        Bitmap bmp;
+        int size;
         bool state;
 
-        public Game(int rows, int cols, bool state = false)
+        public Game(int size, Bitmap bmp, bool state = false)
         {
-            this.rows = rows;
-            this.cols = cols;
+            this.size = size;
             this.state = state;
+            this.bmp = bmp;
         }
 
         public void Enter()
         {
-            field = new Field(rows, cols);
-            
-            field.Draw();
+            field = new Field(size, bmp.Width);
+
+            bmp = field.CreateField();
         }
 
         public void Step()
@@ -33,11 +35,11 @@ namespace GameLife
 
         private void CellChanger()
         {
-            for (int i = 0; i < rows; ++i)
-                for (int j = 0; j < cols; ++j)
+            for (int i = 0; i < size; ++i)
+                for (int j = 0; j < size; ++j)
                 {
-                    bool roof = i % (rows - 1) == 0;
-                    bool wall = j % (cols - 1) == 0;
+                    bool roof = i % (size - 1) == 0;
+                    bool wall = j % (size - 1) == 0;
                     bool corner = roof && wall;
                     bool inner = !roof && !wall;
 
@@ -50,12 +52,16 @@ namespace GameLife
                         CornerState(i, j, cell);
                 }
             foreach (Cell cell in field.Cells)
+            {
                 cell.Selection();
+            }
+            Bitmap bufbitmap = field.CreateField();
+            bmp = field.UpdateCells(bufbitmap);
         }
 
         private void CornerState(int i, int j, Cell cell)
         {
-            int last = field.Size.Item1 - 1;
+            int last = field.Size - 1;
             int[] ki = { i, Math.Abs(i - 1) % last, Math.Abs(i - 1) % last };
             int[] lj = { Math.Abs(j - 1) % last, Math.Abs(j - 1) % last, j };
 
@@ -64,7 +70,7 @@ namespace GameLife
 
         private void WallState(int i, int j, Cell cell)
         {
-            int last = field.Size.Item1 - 1;
+            int last = field.Size - 1;
             if (i % last == 0)
             {
                 int k = Math.Abs(i - 1) % last;
@@ -106,31 +112,39 @@ namespace GameLife
         {
             foreach (Cell cell in field.Cells)
                 cell.State = false;
+            bmp = null;
+            bmp = field.CreateField();
         }
 
         public void Random(double rand)
         {
             Random r = new Random();
-            for (int i = 0; i < rows; ++i)
-                for (int j = 0; j < cols; ++j)
+            for (int i = 0; i < size; ++i)
+                for (int j = 0; j < size; ++j)
                 {
                     field.Cells[i, j].State = r.NextDouble() < rand;
                 }
+            field.UpdateCells(bmp);
         }
 
         public void Stop_Proceed()
         {
-            this.state = !state;
+            state = !state;
         }
 
-        public void ReSize(int rows, int cols)
+        public void ReSize(int size)
         {
-            this.rows = rows;
-            this.cols = cols;
+            this.size = size;
             Enter();
+        }
+
+        public void ClickEvent(int X, int Y)
+        {
+            field.CellClick(X, Y, bmp);
         }
 
         public Cell[,] Cells { get => field.Cells; }
         public bool State { get => state; set => state = value; }
+        public Bitmap Bitmap { get => bmp; set => bmp = value; }
     }
 }

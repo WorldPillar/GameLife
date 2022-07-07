@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GameLife.Properties
+namespace GameLifePaint.Properties
 {
 
 

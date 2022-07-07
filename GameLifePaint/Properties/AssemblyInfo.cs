@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Общие сведения об этой сборке предоставляются следующим набором
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
 // связанных со сборкой.
-[assembly: AssemblyTitle("GameLife")]
+[assembly: AssemblyTitle("GameLifePaint")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GameLife")]
+[assembly: AssemblyProduct("GameLifePaint")]
 [assembly: AssemblyCopyright("Copyright ©  2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("51bcceb2-1a3f-4442-abaa-e45bff4e42ce")]
+[assembly: Guid("fcbae59e-a077-477f-aaf6-d21e90d77dd1")]
 
 // Сведения о версии сборки состоят из указанных ниже четырех значений:
 //

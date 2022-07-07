@@ -1,34 +1,40 @@
 ﻿using System;
 using System.Threading;
+using System.Windows.Forms;
+using System.Drawing;
 
-namespace GameLife
+namespace GameLifePaint
 {
     public partial class Form : System.Windows.Forms.Form
     {
         Thread gamethread;
         Game game;
+        Bitmap bmp;
 
         public Form()
         {
             InitializeComponent();
-            game = new Game(10,10);
+            bmp = new Bitmap(pBox.Width, pBox.Height);
+            game = new Game(10, bmp);
             gamethread = new Thread(new ThreadStart(GameStart));
         }
 
         private void Form_Load(object sender, EventArgs e)
         {
             game.Enter();
-            foreach (Cell cell in game.Cells)
-                groupCell.Controls.Add(cell);
+            pBox.Image = game.Bitmap;
             gamethread.Start();
         }
 
         private void GameStart()
         {
+            PictureBox threadBox = new PictureBox();
+            threadBox.Name = "threadBox";
             while (true)
             {
                 Game.mre.WaitOne();
                 game.Step();
+                pBox.Image = game.Bitmap;
             }
         }
 
@@ -51,18 +57,21 @@ namespace GameLife
         {
             Interrupt();
             game.Step();
+            pBox.Image = game.Bitmap;
         }
 
         private void btnClean_Click(object sender, EventArgs e)
         {
             Interrupt();
             game.Clean();
+            pBox.Image = game.Bitmap;
         }
 
         private void btnRandom_Click(object sender, EventArgs e)
         {
             Interrupt();
             game.Random(0.2);
+            pBox.Image = game.Bitmap;
         }
 
         private void Interrupt()
@@ -78,16 +87,19 @@ namespace GameLife
         private void sizeBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             Interrupt();
-            groupCell.Controls.Clear();
 
             int size = int.Parse(sizeBox.SelectedItem.ToString());
-            game.ReSize(size, size);
-
-            foreach (Cell cell in game.Cells)
-                groupCell.Controls.Add(cell);
+            game.ReSize(size);
+            pBox.Image = game.Bitmap;
         }
 
-        private void Form_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+        public void pBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            game.ClickEvent(e.X, e.Y);
+            pBox.Image = game.Bitmap;
+        }
+
+        private void Form_FormClosed(object sender, FormClosedEventArgs e)
         {
             gamethread.Abort();
             Environment.Exit(-1);
