@@ -50,64 +50,68 @@
             "200",
             "400",
             "800"});
-            this.sizeBox.Location = new System.Drawing.Point(319, 0);
+            this.sizeBox.Location = new System.Drawing.Point(710, 2);
             this.sizeBox.Margin = new System.Windows.Forms.Padding(0);
             this.sizeBox.MinimumSize = new System.Drawing.Size(60, 0);
             this.sizeBox.Name = "sizeBox";
-            this.sizeBox.Size = new System.Drawing.Size(66, 27);
+            this.sizeBox.Size = new System.Drawing.Size(90, 27);
             this.sizeBox.TabIndex = 9;
             this.sizeBox.SelectedIndexChanged += new System.EventHandler(this.sizeBox_SelectedIndexChanged);
             // 
             // btnRandom
             // 
+            this.btnRandom.BackColor = System.Drawing.Color.SandyBrown;
             this.btnRandom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRandom.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnRandom.Location = new System.Drawing.Point(239, 0);
+            this.btnRandom.Location = new System.Drawing.Point(530, 0);
             this.btnRandom.Margin = new System.Windows.Forms.Padding(0);
             this.btnRandom.Name = "btnRandom";
-            this.btnRandom.Size = new System.Drawing.Size(80, 30);
+            this.btnRandom.Size = new System.Drawing.Size(130, 30);
             this.btnRandom.TabIndex = 8;
             this.btnRandom.Text = "Random";
-            this.btnRandom.UseVisualStyleBackColor = true;
+            this.btnRandom.UseVisualStyleBackColor = false;
             this.btnRandom.Click += new System.EventHandler(this.btnRandom_Click);
             // 
             // btnClean
             // 
+            this.btnClean.BackColor = System.Drawing.Color.SandyBrown;
             this.btnClean.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClean.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnClean.Location = new System.Drawing.Point(159, 0);
+            this.btnClean.Location = new System.Drawing.Point(355, 0);
             this.btnClean.Margin = new System.Windows.Forms.Padding(0);
             this.btnClean.Name = "btnClean";
-            this.btnClean.Size = new System.Drawing.Size(80, 30);
+            this.btnClean.Size = new System.Drawing.Size(130, 30);
             this.btnClean.TabIndex = 7;
             this.btnClean.Text = "Clean";
-            this.btnClean.UseVisualStyleBackColor = true;
+            this.btnClean.UseVisualStyleBackColor = false;
             this.btnClean.Click += new System.EventHandler(this.btnClean_Click);
             // 
             // btnStep
             // 
+            this.btnStep.BackColor = System.Drawing.Color.SandyBrown;
             this.btnStep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStep.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnStep.Location = new System.Drawing.Point(80, 0);
+            this.btnStep.Location = new System.Drawing.Point(180, 0);
             this.btnStep.Margin = new System.Windows.Forms.Padding(0);
             this.btnStep.Name = "btnStep";
-            this.btnStep.Size = new System.Drawing.Size(79, 30);
+            this.btnStep.Size = new System.Drawing.Size(130, 30);
             this.btnStep.TabIndex = 6;
-            this.btnStep.Text = "One step";
-            this.btnStep.UseVisualStyleBackColor = true;
+            this.btnStep.Text = "Step";
+            this.btnStep.UseVisualStyleBackColor = false;
             this.btnStep.Click += new System.EventHandler(this.btnStep_Click);
             // 
             // btnRun
             // 
+            this.btnRun.BackColor = System.Drawing.Color.SandyBrown;
             this.btnRun.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRun.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnRun.Location = new System.Drawing.Point(0, 0);
             this.btnRun.Margin = new System.Windows.Forms.Padding(0);
             this.btnRun.Name = "btnRun";
-            this.btnRun.Size = new System.Drawing.Size(80, 30);
+            this.btnRun.Size = new System.Drawing.Size(130, 30);
             this.btnRun.TabIndex = 5;
             this.btnRun.Text = "Run";
-            this.btnRun.UseVisualStyleBackColor = true;
+            this.btnRun.UseVisualStyleBackColor = false;
             this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
             // 
             // pBox
@@ -125,8 +129,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.MediumAquamarine;
-            this.ClientSize = new System.Drawing.Size(800, 831);
+            this.BackColor = System.Drawing.Color.DarkGreen;
+            this.ClientSize = new System.Drawing.Size(800, 830);
             this.Controls.Add(this.pBox);
             this.Controls.Add(this.sizeBox);
             this.Controls.Add(this.btnRandom);

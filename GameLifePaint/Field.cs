@@ -41,9 +41,9 @@ namespace GameLifePaint
         {
             int step = area / size;
 
-            Graphics g = Graphics.FromImage(bmp);
             SolidBrush redBrush = new SolidBrush(Color.Red);
             SolidBrush whiteBrush = new SolidBrush(Color.White);
+            Graphics g = Graphics.FromImage(bmp);
 
             foreach (Cell cell in cells)
             {
@@ -52,9 +52,9 @@ namespace GameLifePaint
                 else
                     g.FillRectangle(whiteBrush, cell.Position.X * step + 1, cell.Position.Y * step + 1, step - 1, step - 1);
             }
+            g.Dispose();
             redBrush.Dispose();
             whiteBrush.Dispose();
-            g.Dispose();
             return bmp;
         }
 
@@ -64,23 +64,19 @@ namespace GameLifePaint
             int x = X / step;
             int y = Y / step;
             Rectangle r = new Rectangle(x * step + 1, y * step + 1, step - 1, step - 1);
+            cells[x, y].ChangeState();
 
-            Graphics g = Graphics.FromImage(bmp);
             SolidBrush redBrush = new SolidBrush(Color.Red);
             SolidBrush whiteBrush = new SolidBrush(Color.White);
+            Graphics g = Graphics.FromImage(bmp);
 
-            cells[x, y].ChangeState();
-            if (!cells[x, y].Life)
-            {
-                g.FillRectangle(whiteBrush, r);
-            }
-            else
-            {
+            if (cells[x, y].Life)
                 g.FillRectangle(redBrush, r);
-            }
+            else
+                g.FillRectangle(whiteBrush, r);
+            g.Dispose();
             redBrush.Dispose();
             whiteBrush.Dispose();
-            g.Dispose();
         }
 
         public Cell[,] Cells { get => cells; }

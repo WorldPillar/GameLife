@@ -9,21 +9,19 @@ namespace GameLifePaint
     {
         Thread gamethread;
         Game game;
-        Bitmap bmp;
 
         public Form()
         {
             InitializeComponent();
-            bmp = new Bitmap(pBox.Width, pBox.Height);
-            game = new Game(10, bmp);
+            game = new Game(10, pBox);
             gamethread = new Thread(new ThreadStart(GameStart));
         }
 
         private void Form_Load(object sender, EventArgs e)
         {
             game.Enter();
-            pBox.Image = game.Bitmap;
             gamethread.Start();
+            sizeBox.SelectedIndex = 0;
         }
 
         private void GameStart()
@@ -32,7 +30,6 @@ namespace GameLifePaint
             {
                 Game.mre.WaitOne();
                 game.Step();
-                pBox.Image = game.Bitmap;
             }
         }
 
@@ -55,21 +52,18 @@ namespace GameLifePaint
         {
             Interrupt();
             game.Step();
-            pBox.Image = game.Bitmap;
         }
 
         private void btnClean_Click(object sender, EventArgs e)
         {
             Interrupt();
             game.Clean();
-            pBox.Image = game.Bitmap;
         }
 
         private void btnRandom_Click(object sender, EventArgs e)
         {
             Interrupt();
             game.Random(0.2);
-            pBox.Image = game.Bitmap;
         }
 
         private void Interrupt()
@@ -86,15 +80,14 @@ namespace GameLifePaint
         {
             Interrupt();
 
-            int size = int.Parse(sizeBox.SelectedItem.ToString());
+            string strsize = sizeBox.SelectedItem.ToString();
+            int size = int.Parse(strsize);
             game.Resize(size);
-            pBox.Image = game.Bitmap;
         }
 
         public void pBox_MouseClick(object sender, MouseEventArgs e)
         {
             game.ClickEvent(e.X, e.Y);
-            pBox.Image = game.Bitmap;
         }
 
         private void Form_FormClosed(object sender, FormClosedEventArgs e)
