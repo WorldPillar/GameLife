@@ -6,7 +6,7 @@ namespace GameLifePaint
 {
     internal class Game
     {
-        int SLEEP = 150;
+        int SLEEP = 200;
         public static ManualResetEvent mre = new ManualResetEvent(false);
         Field field;
         Bitmap bmp;
@@ -51,12 +51,29 @@ namespace GameLifePaint
                     else
                         CornerState(i, j, cell);
                 }
+
+            UpdateCells();
+        }
+
+        private void UpdateCells()
+        {
+            Graphics g = Graphics.FromImage(bmp);
+            SolidBrush redBrush = new SolidBrush(Color.Red);
+            SolidBrush whiteBrush = new SolidBrush(Color.White);
+            int step = Bitmap.Width / size;
             foreach (Cell cell in field.Cells)
             {
-                cell.Selection();
+                if (cell.Selection())
+                {
+                    if (cell.Life)
+                        g.FillRectangle(redBrush, cell.Position.X * step + 1, cell.Position.Y * step + 1, step - 1, step - 1);
+                    else
+                        g.FillRectangle(whiteBrush, cell.Position.X * step + 1, cell.Position.Y * step + 1, step - 1, step - 1);
+                }
             }
-            Bitmap bufbitmap = field.CreateField();
-            bmp = field.UpdateCells(bufbitmap);
+            redBrush.Dispose();
+            whiteBrush.Dispose();
+            g.Dispose();
         }
 
         private void CornerState(int i, int j, Cell cell)
@@ -132,7 +149,7 @@ namespace GameLifePaint
             state = !state;
         }
 
-        public void ReSize(int size)
+        public void Resize(int size)
         {
             this.size = size;
             Enter();

@@ -21,14 +21,20 @@ namespace GameLifePaint
             if (life)
             {
                 if (!(neighbors == 2 || neighbors == 3))
+                {
                     ChangeState();
+                    neighbors = 0;
+                    return true;
+                }
             }
             else if (neighbors == 3)
             {
                 ChangeState();
+                neighbors = 0;
+                return true;
             }
             neighbors = 0;
-            return life;
+            return false;
         }
 
         public void ChangeState()

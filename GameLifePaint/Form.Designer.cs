@@ -116,7 +116,7 @@
             this.pBox.Location = new System.Drawing.Point(0, 30);
             this.pBox.Margin = new System.Windows.Forms.Padding(0);
             this.pBox.Name = "pBox";
-            this.pBox.Size = new System.Drawing.Size(1000, 1000);
+            this.pBox.Size = new System.Drawing.Size(800, 800);
             this.pBox.TabIndex = 0;
             this.pBox.TabStop = false;
             this.pBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pBox_MouseClick);

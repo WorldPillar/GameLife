@@ -28,8 +28,6 @@ namespace GameLifePaint
 
         private void GameStart()
         {
-            PictureBox threadBox = new PictureBox();
-            threadBox.Name = "threadBox";
             while (true)
             {
                 Game.mre.WaitOne();
@@ -89,7 +87,7 @@ namespace GameLifePaint
             Interrupt();
 
             int size = int.Parse(sizeBox.SelectedItem.ToString());
-            game.ReSize(size);
+            game.Resize(size);
             pBox.Image = game.Bitmap;
         }
 

@@ -32,6 +32,7 @@ namespace GameLifePaint
                 g.DrawLine(pen, step * i, 0, step * i, area);
                 g.DrawLine(pen, 0, step * i, area, step * i);
             }
+            pen.Dispose();
             g.Dispose();
             return bmp;
         }
@@ -46,12 +47,13 @@ namespace GameLifePaint
 
             foreach (Cell cell in cells)
             {
-                Rectangle r = new Rectangle(cell.Position.X * step + 1, cell.Position.Y * step + 1, step - 1, step - 1);
                 if (cell.Life)
-                    g.FillRectangle(redBrush, r);
+                    g.FillRectangle(redBrush, cell.Position.X * step + 1, cell.Position.Y * step + 1, step - 1, step - 1);
                 else
-                    g.FillRectangle(whiteBrush, r);
+                    g.FillRectangle(whiteBrush, cell.Position.X * step + 1, cell.Position.Y * step + 1, step - 1, step - 1);
             }
+            redBrush.Dispose();
+            whiteBrush.Dispose();
             g.Dispose();
             return bmp;
         }
@@ -76,6 +78,8 @@ namespace GameLifePaint
             {
                 g.FillRectangle(redBrush, r);
             }
+            redBrush.Dispose();
+            whiteBrush.Dispose();
             g.Dispose();
         }
 
