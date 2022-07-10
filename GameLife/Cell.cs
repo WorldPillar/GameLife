@@ -9,9 +9,13 @@ namespace GameLife
         private bool life;
         private int neighbors;
 
-        public Cell(bool life = false)
+        public Cell(int i, int j, int size, bool life = false)
         {
             this.life = life;
+            BackColor = Color.White;
+            FlatStyle = FlatStyle.Flat;
+            Location = new Point(j * size, i * size);
+            Size = new Size(size, size);
         }
 
         public void Selection()
@@ -28,29 +32,13 @@ namespace GameLife
             neighbors = 0;
         }
 
-        public void ChangeState(object sender = null, EventArgs e = null)
+        public void ChangeState()
         {
             life = !life;
             if (life)
                 BackColor = Color.Red;
             else
                 BackColor = Color.White;
-        }
-
-        public void Draw(int i, int j, int size)
-        {
-            if (life)
-                BackColor = Color.Red;
-            else
-                BackColor = Color.White;
-            FlatAppearance.BorderSize = 1;
-            FlatStyle = FlatStyle.Flat;
-            Location = new Point(j * size, i * size);
-            Margin = new Padding(0);
-            Size = new Size(size, size);
-            TabIndex = 1;
-            UseVisualStyleBackColor = true;
-            Click += new EventHandler(ChangeState);
         }
 
         public bool Life { get => life; set => life = value; }

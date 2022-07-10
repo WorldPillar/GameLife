@@ -5,33 +5,49 @@ namespace GameLife
     internal class Field
     {
         private Cell[,] cells;
-        private int rows;
-        private int cols;
+        private int size;
 
-        public Field(int rows, int cols)
+        public Field(int size)
         {
-            this.rows = rows;
-            this.cols = cols;
-            cells = new Cell[rows, cols];
+            this.size = size;
+            int step = 900 / size;
+            cells = new Cell[size, size];
 
-            for (int i = 0; i < rows; ++i)
-                for (int j = 0; j < cols; ++j)
+            for (int i = 0; i < size; ++i)
+                for (int j = 0; j < size; ++j)
                 {
-                    cells[i, j] = new Cell();
+                    cells[i, j] = new Cell(i, j, step);
+                    cells[i, j].Click += new EventHandler(OnClick);
                 }
         }
 
-        public void Draw()
+        private void OnClick(object sender, EventArgs e)
         {
-            int size = 900 / Math.Min(cols, rows);
-            for (int i = 0; i < cells.GetLength(0); ++i)
-                for (int j = 0; j < cells.GetLength(1); ++j)
-                {
-                    cells[i, j].Draw(i, j, size);
-                }
+            if (sender is Cell cell)
+                cell.ChangeState();
+        }
+
+        public void DeleteCells()
+        {
+            for (int i = 0; i < size; ++i)
+                for (int j = 0; j < size; ++j)
+                    cells[i, j].Dispose();
         }
 
         public Cell[,] Cells { get => cells; }
-        public (int, int) Size { get => (rows, cols); }
+
+        public bool[,] CellBuff
+        {
+            get
+            {
+                bool[,] buf = new bool[size, size];
+                for (int i = 0; i < size; ++i)
+                    for (int j = 0; j < size; ++j)
+                        buf[i, j] = cells[i, j].Life;
+                return buf;
+            }
+        }
+
+        public int Size { get => size; }
     }
 }

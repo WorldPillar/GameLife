@@ -38,54 +38,58 @@
             // 
             // btnRun
             // 
+            this.btnRun.BackColor = System.Drawing.Color.SandyBrown;
             this.btnRun.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRun.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnRun.Location = new System.Drawing.Point(0, 0);
             this.btnRun.Margin = new System.Windows.Forms.Padding(0);
             this.btnRun.Name = "btnRun";
-            this.btnRun.Size = new System.Drawing.Size(80, 30);
+            this.btnRun.Size = new System.Drawing.Size(130, 30);
             this.btnRun.TabIndex = 0;
             this.btnRun.Text = "Run";
-            this.btnRun.UseVisualStyleBackColor = true;
+            this.btnRun.UseVisualStyleBackColor = false;
             this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
             // 
             // btnStep
             // 
+            this.btnStep.BackColor = System.Drawing.Color.SandyBrown;
             this.btnStep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStep.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnStep.Location = new System.Drawing.Point(80, 0);
+            this.btnStep.Location = new System.Drawing.Point(208, 0);
             this.btnStep.Margin = new System.Windows.Forms.Padding(0);
             this.btnStep.Name = "btnStep";
-            this.btnStep.Size = new System.Drawing.Size(79, 30);
+            this.btnStep.Size = new System.Drawing.Size(130, 30);
             this.btnStep.TabIndex = 1;
             this.btnStep.Text = "One step";
-            this.btnStep.UseVisualStyleBackColor = true;
+            this.btnStep.UseVisualStyleBackColor = false;
             this.btnStep.Click += new System.EventHandler(this.btnStep_Click);
             // 
             // btnClean
             // 
+            this.btnClean.BackColor = System.Drawing.Color.SandyBrown;
             this.btnClean.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClean.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnClean.Location = new System.Drawing.Point(159, 0);
+            this.btnClean.Location = new System.Drawing.Point(412, 0);
             this.btnClean.Margin = new System.Windows.Forms.Padding(0);
             this.btnClean.Name = "btnClean";
-            this.btnClean.Size = new System.Drawing.Size(80, 30);
+            this.btnClean.Size = new System.Drawing.Size(130, 30);
             this.btnClean.TabIndex = 2;
             this.btnClean.Text = "Clean";
-            this.btnClean.UseVisualStyleBackColor = true;
+            this.btnClean.UseVisualStyleBackColor = false;
             this.btnClean.Click += new System.EventHandler(this.btnClean_Click);
             // 
             // btnRandom
             // 
+            this.btnRandom.BackColor = System.Drawing.Color.SandyBrown;
             this.btnRandom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRandom.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnRandom.Location = new System.Drawing.Point(239, 0);
+            this.btnRandom.Location = new System.Drawing.Point(614, 0);
             this.btnRandom.Margin = new System.Windows.Forms.Padding(0);
             this.btnRandom.Name = "btnRandom";
-            this.btnRandom.Size = new System.Drawing.Size(80, 30);
+            this.btnRandom.Size = new System.Drawing.Size(130, 30);
             this.btnRandom.TabIndex = 3;
             this.btnRandom.Text = "Random";
-            this.btnRandom.UseVisualStyleBackColor = true;
+            this.btnRandom.UseVisualStyleBackColor = false;
             this.btnRandom.Click += new System.EventHandler(this.btnRandom_Click);
             // 
             // sizeBox
@@ -97,18 +101,19 @@
             this.sizeBox.Items.AddRange(new object[] {
             "10",
             "30",
-            "60"});
-            this.sizeBox.Location = new System.Drawing.Point(319, 0);
+            "60",
+            "90"});
+            this.sizeBox.Location = new System.Drawing.Point(810, 0);
             this.sizeBox.Margin = new System.Windows.Forms.Padding(0);
             this.sizeBox.MinimumSize = new System.Drawing.Size(60, 0);
             this.sizeBox.Name = "sizeBox";
-            this.sizeBox.Size = new System.Drawing.Size(66, 27);
+            this.sizeBox.Size = new System.Drawing.Size(90, 27);
             this.sizeBox.TabIndex = 4;
             this.sizeBox.SelectedIndexChanged += new System.EventHandler(this.sizeBox_SelectedIndexChanged);
             // 
             // groupCell
             // 
-            this.groupCell.BackColor = System.Drawing.Color.LemonChiffon;
+            this.groupCell.BackColor = System.Drawing.Color.White;
             this.groupCell.Location = new System.Drawing.Point(0, 30);
             this.groupCell.Margin = new System.Windows.Forms.Padding(0);
             this.groupCell.Name = "groupCell";
@@ -122,7 +127,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BackColor = System.Drawing.Color.MistyRose;
+            this.BackColor = System.Drawing.Color.DarkGreen;
             this.ClientSize = new System.Drawing.Size(900, 931);
             this.Controls.Add(this.groupCell);
             this.Controls.Add(this.sizeBox);

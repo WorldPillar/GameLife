@@ -11,15 +11,13 @@ namespace GameLife
         public Form()
         {
             InitializeComponent();
-            game = new Game(10,10);
+            game = new Game(10, groupCell);
             gamethread = new Thread(new ThreadStart(GameStart));
         }
 
         private void Form_Load(object sender, EventArgs e)
         {
             game.Enter();
-            foreach (Cell cell in game.Cells)
-                groupCell.Controls.Add(cell);
             gamethread.Start();
         }
 
@@ -78,13 +76,8 @@ namespace GameLife
         private void sizeBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             Interrupt();
-            groupCell.Controls.Clear();
-
             int size = int.Parse(sizeBox.SelectedItem.ToString());
-            game.ReSize(size, size);
-
-            foreach (Cell cell in game.Cells)
-                groupCell.Controls.Add(cell);
+            game.Resize(size);
         }
 
         private void Form_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
