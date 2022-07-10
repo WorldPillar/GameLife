@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace GameLifePaint
 {
@@ -7,6 +8,9 @@ namespace GameLifePaint
         private Cell[,] cells;
         private int size;
         private int area;
+
+        SolidBrush redBrush = new SolidBrush(Color.Red);
+        SolidBrush whiteBrush = new SolidBrush(Color.White);
 
         public Field(int size, int area)
         {
@@ -26,7 +30,7 @@ namespace GameLifePaint
             Bitmap bmp = new Bitmap(area, area);
             int step = area / size;
             Graphics g = Graphics.FromImage(bmp);
-            Pen pen = new Pen(Color.Black, 0.1f);
+            Pen pen = new Pen(Color.Gray, 1);
             for (int i = 0; i <= size; ++i)
             {
                 g.DrawLine(pen, step * i, 0, step * i, area);
@@ -37,25 +41,40 @@ namespace GameLifePaint
             return bmp;
         }
 
-        public Bitmap UpdateCells(Bitmap bmp)
+        public void UpdateStep(Bitmap bmp)
+        {
+            try
+            {
+                Graphics g = Graphics.FromImage(bmp);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "when step");
+            }
+            finally
+            {
+                Graphics g = Graphics.FromImage(bmp);
+                int step = area / size;
+                foreach (Cell cell in Cells)
+                {
+                    if (cell.Selection())
+                        DrawRect(cell.Position.X, cell.Position.Y, step, cell.State, g);
+                }
+                g.Dispose();
+            }
+        }
+
+        public void UpdateRandom(Bitmap bmp)
         {
             int step = area / size;
 
-            SolidBrush redBrush = new SolidBrush(Color.Red);
-            SolidBrush whiteBrush = new SolidBrush(Color.White);
             Graphics g = Graphics.FromImage(bmp);
 
             foreach (Cell cell in cells)
             {
-                if (cell.Life)
-                    g.FillRectangle(redBrush, cell.Position.X * step + 1, cell.Position.Y * step + 1, step - 1, step - 1);
-                else
-                    g.FillRectangle(whiteBrush, cell.Position.X * step + 1, cell.Position.Y * step + 1, step - 1, step - 1);
+                DrawRect(cell.Position.X, cell.Position.Y, step, cell.State, g);
             }
             g.Dispose();
-            redBrush.Dispose();
-            whiteBrush.Dispose();
-            return bmp;
         }
 
         public void CellClick(int X, int Y, Bitmap bmp)
@@ -63,20 +82,32 @@ namespace GameLifePaint
             int step = area / size;
             int x = X / step;
             int y = Y / step;
-            Rectangle r = new Rectangle(x * step + 1, y * step + 1, step - 1, step - 1);
-            cells[x, y].ChangeState();
 
-            SolidBrush redBrush = new SolidBrush(Color.Red);
-            SolidBrush whiteBrush = new SolidBrush(Color.White);
-            Graphics g = Graphics.FromImage(bmp);
+            Cell cell = cells[x, y];
+            cell.InvertState();
 
-            if (cells[x, y].Life)
-                g.FillRectangle(redBrush, r);
+            try
+            {
+                Graphics g = Graphics.FromImage(bmp);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + "when click");
+            }
+            finally
+            {
+                Graphics g = Graphics.FromImage(bmp);
+                DrawRect(x, y, step, cell.State, g);
+                g.Dispose();
+            }
+        }
+
+        private void DrawRect(int X, int Y, int step, bool life, Graphics g)
+        {
+            if (life)
+                g.FillRectangle(redBrush, X * step + 1, Y * step + 1, step - 1, step - 1);
             else
-                g.FillRectangle(whiteBrush, r);
-            g.Dispose();
-            redBrush.Dispose();
-            whiteBrush.Dispose();
+                g.FillRectangle(whiteBrush, X * step + 1, Y * step + 1, step - 1, step - 1);
         }
 
         public Cell[,] Cells { get => cells; }

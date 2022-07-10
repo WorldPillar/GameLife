@@ -7,25 +7,30 @@ namespace GameLifePaint
 {
     internal class Game
     {
-        int SLEEP = 10;
+        int SLEEP = 100;
         public static ManualResetEvent mre = new ManualResetEvent(false);
+
         Field field;
+        NeighborCounter nbcounter;
+
         Bitmap bmp;
-        PictureBox pBox;
+        PictureBox gameBox;
+
         int size;
         bool state;
 
-        public Game(int size, PictureBox pBox, bool state = false)
+        public Game(int size, PictureBox gameBox)
         {
             this.size = size;
-            this.state = state;
-            this.pBox = pBox;
-            bmp = new Bitmap(pBox.Width, pBox.Height); ;
+            this.gameBox = gameBox;
+            state = false;
+            bmp = new Bitmap(gameBox.Width, gameBox.Height);
         }
 
-        public void Enter()
+        public void BuildGame()
         {
             field = new Field(size, bmp.Width);
+            nbcounter = new NeighborCounter(field.Cells);
 
             bmp = field.CreateField();
             UpdatePictureBox();
@@ -43,109 +48,18 @@ namespace GameLifePaint
             for (int i = 0; i < size; ++i)
                 for (int j = 0; j < size; ++j)
                 {
-                    bool roof = i % (size - 1) == 0;
-                    bool wall = j % (size - 1) == 0;
-                    bool corner = roof && wall;
-                    bool inner = !roof && !wall;
-
-                    Cell cell = field.Cells[i, j];
-                    if (inner)
-                        InnerState(i, j, cell);
-                    else if (!corner)
-                        WallState(i, j, cell);
-                    else
-                        CornerState(i, j, cell);
+                    nbcounter.CountNeighbors(i, j, size);
                 }
 
-            UpdatetoStep();
-        }
-
-        private void UpdatetoStep()
-        {
-            SolidBrush redBrush = new SolidBrush(Color.Red);
-            SolidBrush whiteBrush = new SolidBrush(Color.White);
-            try
-            {
-                Graphics g = Graphics.FromImage(bmp);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                Graphics g = Graphics.FromImage(bmp);
-                int step = Bitmap.Width / size;
-                foreach (Cell cell in field.Cells)
-                {
-                    if (cell.Selection())
-                    {
-                        if (cell.Life)
-                            g.FillRectangle(redBrush, cell.Position.X * step + 1, cell.Position.Y * step + 1, step - 1, step - 1);
-                        else
-                            g.FillRectangle(whiteBrush, cell.Position.X * step + 1, cell.Position.Y * step + 1, step - 1, step - 1);
-                    }
-                }
-                g.Dispose();
-                redBrush.Dispose();
-                whiteBrush.Dispose();
-            }
-        }
-
-        private void CornerState(int i, int j, Cell cell)
-        {
-            int last = field.Size - 1;
-            int[] ki = { i, Math.Abs(i - 1) % last, Math.Abs(i - 1) % last };
-            int[] lj = { Math.Abs(j - 1) % last, Math.Abs(j - 1) % last, j };
-
-            CornerWall(ki, lj, cell);
-        }
-
-        private void WallState(int i, int j, Cell cell)
-        {
-            int last = field.Size - 1;
-            if (i % last == 0)
-            {
-                int k = Math.Abs(i - 1) % last;
-                int[] ki = { i, k, k, k, i };
-                int[] lj = { j - 1, j - 1, j, j + 1, j + 1 };
-                CornerWall(ki, lj, cell);
-            }
-            else
-            {
-                int l = Math.Abs(j - 1) % last;
-                int[] lj = { j, l, l, l, j };
-                int[] ki = { i - 1, i - 1, i, i + 1, i + 1 };
-                CornerWall(ki, lj, cell);
-            }
-        }
-
-        private void CornerWall(int[] ki, int[] lj, Cell cell)
-        {
-            for (int i = 0, j = 0; i < ki.Length; ++i, ++j)
-            {
-                if (field.Cells[ki[i], lj[j]].Life)
-                    cell.Neighbor = ++cell.Neighbor;
-            }
-        }
-
-        private void InnerState(int i, int j, Cell cell)
-        {
-            for (int k = i - 1; k < i + 2; ++k)
-                for (int l = j - 1; l < j + 2; ++l)
-                {
-                    if (k == i && l == j)
-                        continue;
-                    if (field.Cells[k, l].Life)
-                        cell.Neighbor = ++cell.Neighbor;
-                }
+            field.UpdateStep(bmp);
         }
 
         public void Clean()
         {
             foreach (Cell cell in field.Cells)
                 cell.State = false;
-            bmp = null;
+
+            bmp.Dispose();
             bmp = field.CreateField();
             UpdatePictureBox();
         }
@@ -158,11 +72,11 @@ namespace GameLifePaint
                 {
                     field.Cells[i, j].State = r.NextDouble() < rand;
                 }
-            field.UpdateCells(bmp);
+            field.UpdateRandom(bmp);
             UpdatePictureBox();
         }
 
-        public void Stop_Proceed()
+        public void InvertState()
         {
             state = !state;
         }
@@ -170,7 +84,7 @@ namespace GameLifePaint
         public void Resize(int size)
         {
             this.size = size;
-            Enter();
+            BuildGame();
         }
 
         public void ClickEvent(int X, int Y)
@@ -181,10 +95,9 @@ namespace GameLifePaint
 
         private void UpdatePictureBox()
         {
-            pBox.Image = bmp;
+            gameBox.Image = bmp;
         }
 
-        public Cell[,] Cells { get => field.Cells; }
         public bool State { get => state; set => state = value; }
         public Bitmap Bitmap { get => bmp; set => bmp = value; }
     }

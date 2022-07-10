@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
-using System.Drawing;
 
 namespace GameLifePaint
 {
@@ -19,7 +18,7 @@ namespace GameLifePaint
 
         private void Form_Load(object sender, EventArgs e)
         {
-            game.Enter();
+            game.BuildGame();
             gamethread.Start();
             sizeBox.SelectedIndex = 0;
         }
@@ -35,7 +34,7 @@ namespace GameLifePaint
 
         private void btnRun_Click(object sender, EventArgs e)
         {
-            game.Stop_Proceed();
+            game.InvertState();
             if (!game.State)
             {
                 Game.mre.Reset();
@@ -48,32 +47,29 @@ namespace GameLifePaint
             }
         }
 
-        private void btnStep_Click(object sender, EventArgs e)
-        {
-            Interrupt();
-            game.Step();
-        }
-
-        private void btnClean_Click(object sender, EventArgs e)
-        {
-            Interrupt();
-            game.Clean();
-        }
-
-        private void btnRandom_Click(object sender, EventArgs e)
-        {
-            Interrupt();
-            game.Random(0.2);
-        }
-
         private void Interrupt()
         {
             if (game.State)
             {
                 Game.mre.Reset();
                 btnRun.Text = "Run";
-                game.Stop_Proceed();
+                game.InvertState();
             }
+        }
+
+        private void Button_Click(object sender, EventArgs e)
+        {
+            Interrupt();
+
+            Button btn = sender as Button;
+            switch (btn.Text)
+            {
+                case "Step": { game.Step(); break; }
+                case "Clean": { game.Clean(); break; }
+                case "Random": { game.Random(0.2); break; }
+                default: { Console.WriteLine("Somthing went wrong"); break; }
+            }
+            
         }
 
         private void sizeBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -92,7 +88,7 @@ namespace GameLifePaint
 
         private void Form_FormClosed(object sender, FormClosedEventArgs e)
         {
-            gamethread.Abort();
+            Interrupt();
             Environment.Exit(-1);
         }
     }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace GameLifePaint
 {
@@ -8,7 +6,7 @@ namespace GameLifePaint
     {
         private bool life;
         private int neighbors;
-        private Point position;
+        private readonly Point position;
 
         public Cell(Point position, bool life = false)
         {
@@ -18,37 +16,29 @@ namespace GameLifePaint
 
         public bool Selection()
         {
-            if (life)
+            bool willdie = life && !(neighbors == 2 || neighbors == 3);
+            bool willalife = !life && neighbors == 3;
+            neighbors = 0;
+
+            if (willdie || willalife)
             {
-                if (!(neighbors == 2 || neighbors == 3))
-                {
-                    ChangeState();
-                    neighbors = 0;
-                    return true;
-                }
-            }
-            else if (neighbors == 3)
-            {
-                ChangeState();
-                neighbors = 0;
+                InvertState();
                 return true;
             }
-            neighbors = 0;
             return false;
         }
 
-        public void ChangeState()
+        public void InvertState()
         {
             life = !life;
         }
 
-        public bool Life { get => life; set => life = value; }
-        public int Neighbor { get => neighbors; set => neighbors = value; }
-        public bool State
+        public void AddNeighbor()
         {
-            get { return life; }
-            set { life = value; }
+            neighbors++;
         }
+
+        public bool State { get => life; set => life = value; }
         public Point Position { get => position; }
     }
 }
