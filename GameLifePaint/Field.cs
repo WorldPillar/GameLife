@@ -5,12 +5,12 @@ namespace GameLifePaint
 {
     internal class Field
     {
-        private Cell[,] cells;
-        private int size;
-        private int area;
+        readonly Cell[,] cells;
+        readonly int size;
+        readonly int area;
 
-        SolidBrush redBrush = new SolidBrush(Color.Red);
-        SolidBrush whiteBrush = new SolidBrush(Color.White);
+        readonly SolidBrush redBrush = new SolidBrush(Color.Red);
+        readonly SolidBrush whiteBrush = new SolidBrush(Color.White);
 
         public Field(int size, int area)
         {
@@ -49,7 +49,7 @@ namespace GameLifePaint
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message + "when step");
+                Console.WriteLine(ex.Message + " when step");
             }
             finally
             {
@@ -92,7 +92,7 @@ namespace GameLifePaint
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message + "when click");
+                Console.WriteLine(e.Message + " when click");
             }
             finally
             {

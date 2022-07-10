@@ -34,6 +34,7 @@
             this.btnStep = new System.Windows.Forms.Button();
             this.btnRun = new System.Windows.Forms.Button();
             this.pBox = new System.Windows.Forms.PictureBox();
+            this.tickBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,18 +45,20 @@
             this.sizeBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.sizeBox.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.sizeBox.FormattingEnabled = true;
+            this.sizeBox.ImeMode = System.Windows.Forms.ImeMode.Close;
             this.sizeBox.Items.AddRange(new object[] {
+            "Масштаб",
             "10",
             "50",
             "100",
             "150",
             "300",
             "450"});
-            this.sizeBox.Location = new System.Drawing.Point(721, 2);
+            this.sizeBox.Location = new System.Drawing.Point(803, 2);
             this.sizeBox.Margin = new System.Windows.Forms.Padding(0);
             this.sizeBox.MinimumSize = new System.Drawing.Size(60, 0);
             this.sizeBox.Name = "sizeBox";
-            this.sizeBox.Size = new System.Drawing.Size(179, 27);
+            this.sizeBox.Size = new System.Drawing.Size(97, 27);
             this.sizeBox.TabIndex = 9;
             this.sizeBox.TabStop = false;
             this.sizeBox.SelectedIndexChanged += new System.EventHandler(this.sizeBox_SelectedIndexChanged);
@@ -139,12 +142,35 @@
             this.pBox.TabStop = false;
             this.pBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pBox_MouseClick);
             // 
+            // tickBox
+            // 
+            this.tickBox.BackColor = System.Drawing.Color.White;
+            this.tickBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tickBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.tickBox.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tickBox.FormattingEnabled = true;
+            this.tickBox.Items.AddRange(new object[] {
+            "Тик",
+            "10",
+            "100",
+            "200",
+            "500",
+            "1000"});
+            this.tickBox.Location = new System.Drawing.Point(721, 2);
+            this.tickBox.Margin = new System.Windows.Forms.Padding(0);
+            this.tickBox.Name = "tickBox";
+            this.tickBox.Size = new System.Drawing.Size(82, 27);
+            this.tickBox.TabIndex = 10;
+            this.tickBox.TabStop = false;
+            this.tickBox.SelectedIndexChanged += new System.EventHandler(this.tickBox_SelectedIndexChanged);
+            // 
             // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(900, 930);
+            this.Controls.Add(this.tickBox);
             this.Controls.Add(this.pBox);
             this.Controls.Add(this.sizeBox);
             this.Controls.Add(this.btnRandom);
@@ -162,13 +188,13 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ComboBox sizeBox;
         private System.Windows.Forms.Button btnRandom;
         private System.Windows.Forms.Button btnClean;
         private System.Windows.Forms.Button btnStep;
         private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.PictureBox pBox;
+        private System.Windows.Forms.ComboBox tickBox;
+        private System.Windows.Forms.ComboBox sizeBox;
     }
 }
 

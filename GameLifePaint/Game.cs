@@ -7,14 +7,14 @@ namespace GameLifePaint
 {
     internal class Game
     {
-        int SLEEP = 100;
+        private int tick = 100;
         public static ManualResetEvent mre = new ManualResetEvent(false);
 
         Field field;
         NeighborCounter nbcounter;
 
         Bitmap bmp;
-        PictureBox gameBox;
+        readonly PictureBox gameBox;
 
         int size;
         bool state;
@@ -40,7 +40,7 @@ namespace GameLifePaint
         {
             CellChanger();
             UpdatePictureBox();
-            Thread.Sleep(SLEEP);
+            Thread.Sleep(tick);
         }
 
         private void CellChanger()
@@ -98,6 +98,8 @@ namespace GameLifePaint
             gameBox.Image = bmp;
         }
 
+        public int SIZE { get => size; }
+        public int TICK { get => tick; set => tick = value; }
         public bool State { get => state; set => state = value; }
         public Bitmap Bitmap { get => bmp; set => bmp = value; }
     }

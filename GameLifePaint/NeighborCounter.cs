@@ -52,7 +52,6 @@ namespace GameLifePaint
         private void WallState(int i, int j, int size, Cell cell)
         {
             int last = size - 1;
-            int r;
             if (i % last == 0)
             {
                 int k = Math.Abs(i - 1) % last;

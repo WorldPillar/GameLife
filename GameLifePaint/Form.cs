@@ -6,8 +6,8 @@ namespace GameLifePaint
 {
     public partial class Form : System.Windows.Forms.Form
     {
-        Thread gamethread;
-        Game game;
+        readonly Thread gamethread;
+        readonly Game game;
 
         public Form()
         {
@@ -21,6 +21,7 @@ namespace GameLifePaint
             game.BuildGame();
             gamethread.Start();
             sizeBox.SelectedIndex = 0;
+            tickBox.SelectedIndex = 0;
         }
 
         private void GameStart()
@@ -37,7 +38,11 @@ namespace GameLifePaint
             game.InvertState();
             if (!game.State)
             {
-                Game.mre.Reset();
+                while (!Game.mre.Reset())
+                {
+                    Thread.Sleep(10);
+                }
+                Thread.Sleep(100);
                 btnRun.Text = "Run";
             }
             else
@@ -47,14 +52,20 @@ namespace GameLifePaint
             }
         }
 
-        private void Interrupt()
+        private bool Interrupt()
         {
             if (game.State)
             {
+                while (!Game.mre.Reset())
+                {
+                    Thread.Sleep(10);
+                }
                 Game.mre.Reset();
+                Thread.Sleep(100);
                 btnRun.Text = "Run";
                 game.InvertState();
             }
+            return true;
         }
 
         private void Button_Click(object sender, EventArgs e)
@@ -72,18 +83,29 @@ namespace GameLifePaint
             
         }
 
+        public void pBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            game.ClickEvent(e.X, e.Y);
+        }
+
         private void sizeBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             Interrupt();
 
             string strsize = sizeBox.SelectedItem.ToString();
-            int size = int.Parse(strsize);
-            game.Resize(size);
+            int size = game.SIZE;
+            try { size = int.Parse(strsize); }
+            catch { ; }
+            finally { game.Resize(size); }
         }
 
-        public void pBox_MouseClick(object sender, MouseEventArgs e)
+        private void tickBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            game.ClickEvent(e.X, e.Y);
+            string strtick = tickBox.SelectedItem.ToString();
+            int tick = game.TICK;
+            try { tick = int.Parse(strtick); }
+            catch {; }
+            finally { game.TICK = tick; }
         }
 
         private void Form_FormClosed(object sender, FormClosedEventArgs e)
